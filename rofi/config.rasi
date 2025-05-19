@@ -1,0 +1,4 @@
+configuration {
+    matching: "prefix";
+    sort: true;
+}
