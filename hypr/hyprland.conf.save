@@ -226,7 +226,7 @@ $mainMod = SUPER # Sets "Windows" key as main modifier
 # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
 bind = $mainMod, T, exec, $terminal
 bind = $mainMod, Q, killactive 
-bind = $mainMod SHIFT ALT, M, exec, ~/.local_bin/logout_hyprland
+bind = $mainMod, M, exec, ~/.local_bin/logout_hyprland
 bind = $mainMod, E, exec, $fileManager
 bind = $mainMod, V, togglefloating,
 bind = $mainMod, R, exec, $menu
@@ -248,9 +248,6 @@ bind = $mainMod SHIFT, left, movewindow, l
 bind = $mainMod SHIFT, right, movewindow, r
 bind = $mainMod SHIFT, up, movewindow, u
 bind = $mainMod SHIFT, down, movewindow, d
-
-bind = $mainMod, s, swapwindow, l
-
 
 # Switch workspaces with mainMod + [0-9]
 bind = $mainMod, 1, workspace, 1
@@ -283,8 +280,7 @@ bind = $mainMod SHIFT, 0, movetoworkspace, 10
 bind = $mainMod, O, togglespecialworkspace, obsidian
 bind = $mainMod SHIFT, O, movetoworkspace, special:obsidian
 
-bind = $mainMod, M, togglespecialworkspace, magic
-bind = $mainMod SHIFT, M, movetoworkspace, special:magic
+bind = $mainMod, M
 
 # Scroll through existing workspaces with mainMod + scroll
 bind = $mainMod, mouse_down, workspace, e+1
@@ -327,11 +323,6 @@ bindl = $mainMod SHIFT, S, exec, /home/zerokun265/.local_bin/suspend_hyprland_fr
 bindl = $mainMod SHIFT, H, exec, /home/zerokun265/.local_bin/hibernate_hyprland_from_lock
 bindl = $mainMod SHIFT, R, exec, /home/zerokun265/.local_bin/reboot_hyprland_from_lock
 bindl = $mainMod SHIFT, P, exec, /home/zerokun265/.local_bin/poweroff_hyprland_from_lock
-
-# Discord global workaround (vesktop)
-# pass did not seem to work for some reason
-bind = CTRL SHIFT, M, sendshortcut, CTRL SHIFT, M, class:^(vesktop)$
-bind = CTRL SHIFT, D, sendshortcut, CTRL SHIFT, D,  class:^(vesktop)$
 
 
 ##############################
