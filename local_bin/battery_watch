@@ -59,6 +59,8 @@ while true; do
     if [[ "$state" == "charging" ]]; then
         echo "On AC power (charging)."
         run_on_ac
+    elif [[ "$state" == "fully-charged" ]]; then
+        echo "Fully charged"
     else
         echo "On battery (discharging)."
         run_on_battery
