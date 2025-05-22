@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+eval "$(hyprctl activewindow -j | jq -r '[
+  "X=\(.at[0])",
+  "Y=\(.at[1])",
+  "W=\(.size[0])",
+  "H=\(.size[1])"
+] | join(" ")')"
+sleep 0.3
+grim -g "$X,$Y ${W}x${H}" - | swappy -f -

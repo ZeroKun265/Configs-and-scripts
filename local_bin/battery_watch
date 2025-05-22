@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+
+##########
+# Config #
+##########
+## Battery levels, you can add more just by adding more ifs in the loop later
+CRITICAL_LEVEL=7
+LOW_LEVEL=20
+LOWEST_LEVEL=15
+
+run_on_critical () {
+    notify-send "Battery level critical" "Battery level is too low, hibernating now"
+    systemctl hibernate
+}
+
+run_on_low () {
+    if (( low_battery_warned == 0 )); then
+        notify-send -a "Battery watch" "Battery level low" "Battery level is low, plug in an AC adapter"
+        paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga & sleep 0.2; paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga
+        brightnessctl s 50%
+        low_battery_warned=1
+    else
+        echo "Low battery warning already sent, skipping notification"
+    fi
+}
+
+run_on_lowest () {
+    if ((lowest_battery_warned == 0)); then
+        notify-send -a "Battery watch" "Battery level very low" "Battery level is very low, plug in an AC adapter now!"
+        paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga & sleep 0.2; paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga
+        brightnessctl s 20%
+        lowest_battery_warned=1
+    else 
+        echo "Lowest battery warning already sent, skipping notification"
+    fi
+}
+
+run_on_ac () {
+    pkill hypridle
+}
+
+run_on_battery () {
+    pidof hypridle || hypridle &
+}
+
+###########
+# Runtime #
+###########
+#!/bin/bash
+
+while true; do
+    # Check battery status
+    OUTPUT=$(upower -i $(upower -e | grep "BAT") | grep -E "state|to charged|percentage")
+
+    # Parse values
+    state=$(echo "$OUTPUT" | awk -F: '/state/ {gsub(/ /, "", $2); print $2}')
+    percentage=$(echo "$OUTPUT" | awk -F: '/percentage/ {gsub(/ /, "", $2); print $2}' | tr -d '%')
+    
+    # Matching logic
+    if [[ "$state" == "charging" ]]; then
+        echo "On AC power (charging)."
+        run_on_ac
+    else
+        echo "On battery (discharging)."
+        run_on_battery
+        if (( percentage <= CRITICAL_LEVEL )); then
+            echo "Battery critical ($percentage%), hibernating now."
+            run_on_critical
+        elif (( percentage <= LOWEST_LEVEL )); then
+            echo "Battery very low ($percentage%), sending warning."
+            run_on_lowest
+        elif (( percentage <= LOW_LEVEL )); then
+            echo "Battery low ($percentage%), sending warning."
+            run_on_low
+        else
+            echo "Battery okay ($percentage%)."
+        fi
+    fi
+
+    sleep 5
+done

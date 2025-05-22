@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Touchpad device identifier (replace this with your specific identifier)
+TOUCHPAD_NAME="elan0791:00-04f3:30fd-touchpad"
+
+# Check if the device is currently enabled for palm rejection (based on udevadm status)
+if libinput list-devices | grep -q "$TOUCHPAD_NAME"; then
+    # Palm rejection is enabled, now disable it by removing the palm detection flag
+    echo "Disabling Palm Rejection"
+    sudo udevadm control --reload-rules
+    # Modify libinput dynamically (without writing to hwdb)
+    sudo libinput-debug-events --disable-palm-detection
+else
+    # Palm rejection is not enabled, enable it (or add it as needed)
+    echo "Enabling Palm Rejection"
+    sudo udevadm control --reload-rules
+    # Apply palm rejection (this would need more specific interaction with libinput)
+    # In case you need a dynamic reapplication without rebooting or changing hwdb directly
+    sudo libinput-debug-events --enable-palm-detection
+fi

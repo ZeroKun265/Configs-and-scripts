@@ -49,7 +49,7 @@ exec-once = waybar
 exec-once = hyprpaper
 exec-once = $HOME/.local_bin/hyprpaper_randomizer  
 exec-once = wl-clip-persist --clipboard regular
-exec-once = $HOME/.local_bin/battery_watch
+exec-once = hypridle
 
 exec-once = clipse -listen
 exec-once = kbuildsycoca6
@@ -309,8 +309,8 @@ bind = $mainMod, Print, exec, grim - | swappy -f -
 bind = $mainMod CTRL, Print, exec, ~/.local_bin/screencapture_active_window
 
 # Laptop multimedia keys for volume and LCD brightness
-bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+ && paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
-bindel = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
+bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bindel = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 bindel = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 bindel = ,XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 bindel = ,XF86MonBrightnessUp, exec, brightnessctl s 10%+
@@ -328,11 +328,7 @@ bindl = $mainMod SHIFT, H, exec, /home/zerokun265/.local_bin/hibernate_hyprland_
 bindl = $mainMod SHIFT, R, exec, /home/zerokun265/.local_bin/reboot_hyprland_from_lock
 bindl = $mainMod SHIFT, P, exec, /home/zerokun265/.local_bin/poweroff_hyprland_from_lock
 
-# Discord global workaround (vesktop)
-# pass did not seem to work for some reason
-bind = CTRL SHIFT, M, sendshortcut, CTRL SHIFT, M, class:vesktop
-bind = CTRL SHIFT, D, sendshortcut, CTRL SHIFT, D, class:vesktop
-
+## Discord global mute and unmute
 
 ##############################
 ### WINDOWS AND WORKSPACES ###

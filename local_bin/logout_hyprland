@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# A logout script to fix hyprland logging out and sddm giving a black screen
+
+(sleep 2 && sudo systemctl restart sddm) &
+notify-send "Logout" "logging out"
+loginctl kill-session $XDG_SESSION_ID
+

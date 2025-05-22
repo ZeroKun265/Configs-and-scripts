@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+XDG_MENU_PREFIX=arch- kbuildsycoca6
