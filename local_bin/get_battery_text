@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+OUTPUT=$(upower -i $(upower -e | grep "BAT") | grep -E "state|to charged|percentage")
+ # Parse values
+state=$(echo "$OUTPUT" | awk -F: '/state/ {gsub(/ /, "", $2); print $2}')
+percentage=$(echo "$OUTPUT" | awk -F: '/percentage/ {gsub(/ /, "", $2); print $2}' | tr -d '%')
+
+icon=""
+if [ "$percentage" -ge 80 ]; then icon=" "
+elif [ "$percentage" -ge 60 ]; then icon=" "
+elif [ "$percentage" -ge 40 ]; then icon=" "
+elif [ "$percentage" -ge 20 ]; then icon=" "
+fi
+
+if [ "$state" == "charging" ]; then
+    icon=""
+elif [ "$state" == "full" ]; then
+    icon=""
+fi
+
+echo "$icon $percentage %"
