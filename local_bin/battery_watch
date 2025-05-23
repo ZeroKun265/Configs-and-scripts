@@ -43,6 +43,10 @@ run_on_battery () {
     pidof hypridle || hypridle &
 }
 
+run_on_full () {
+    pkill hypridle
+}
+
 ###########
 # Runtime #
 ###########
@@ -61,6 +65,7 @@ while true; do
         run_on_ac
     elif [[ "$state" == "fully-charged" ]]; then
         echo "Fully charged"
+        run_on_full
     else
         echo "On battery (discharging)."
         run_on_battery
