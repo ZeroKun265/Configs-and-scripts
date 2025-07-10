@@ -9,5 +9,6 @@ case "$chosen" in
   Reboot) systemctl reboot ;;
   Suspend) hyprlock & systemctl suspend ;;
   Hibernate) hyprlock & systemctl hibernate ;;
-  Logout) logout_hyprland ;;
+  Logout) kitty --class invis-kitty -e bash -c '~/.local_bin/logout_hyprland; sleep 4'  ;;
 esac
+

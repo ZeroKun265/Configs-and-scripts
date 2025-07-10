@@ -54,8 +54,8 @@ exec-once = $HOME/.local_bin/battery_watch
 exec-once = clipse -listen
 exec-once = kbuildsycoca6
 exec-once = /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec-once = discord_shortcut_testxd
 
-exec-once = kitty --class invis-kitty -e bash -l -c "~/.local_bin/discord_with_shortcuts"
 ## This shit is needed because kde is a bitch and kills the system tray
 exec-once = printf "[D-BUS Service]\nName=org.kde.kded6\nExec=/bin/false" > $HOME/.local/share/dbus-1/services/org.kde.kded6.service
 exec-shutdown = rm $HOME/.local/share/dbus-1/services/org.kde.kded6.service
@@ -355,8 +355,8 @@ bindl = $mainMod SHIFT, P, exec, /home/zerokun265/.local_bin/poweroff_hyprland_f
 # Discord global workaround (vesktop)
 # pass did not seem to work for some reason
 # Launching kitty like this also bypassed the fact that xwayland apps can't send shortcuts to other xwayland apps
-bind = CTRL SHIFT, M, exec, kitty --class invis-kitty -e bash -l -c 'hyprctl dispatch sendshortcut CTRL SHIFT, M, class:vesktop'
-bind = CTRL SHIFT, D, exec, kitty --class invis-kitty -e bash -l -c 'hyprctl dispatch sendshortcut CTRL SHIFT, D, class:vesktop'
+bind = CTRL SHIFT, M, exec, kitty --class invis-kitt -e bash -l -c 'hyprctl dispatch sendshortcut CTRL SHIFT, M, class:vesktop; sleep 5'
+bind = CTRL SHIFT, D, exec, kitty --class invis-kitty -e bash -c 'hyprctl dispatch sendshortcut CTRL SHIFT, D, class:vesktop'
 
 
 ##############################

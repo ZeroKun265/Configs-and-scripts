@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+export DISPLAY=:1
+export XDG_SESSION_TYPE=wayland
+
+while ! pgrep vesktop > /dev/null; do
+    sleep 5;
+done
+
+sleep 5;
+
+kitty --class invis-kitty -e bash -l -c 'hyprctl dispatch sendshortcut CTRL SHIFT, D, class:vesktop'
+kitty --class invis-kitty -e bash -l -c 'hyprctl dispatch sendshortcut CTRL SHIFT, D, class:vesktop'
+kitty --class invis-kitty -e bash -l -c 'hyprctl dispatch sendshortcut CTRL SHIFT, M, class:vesktop'
+kitty --class invis-kitty -e bash -l -c 'hyprctl dispatch sendshortcut CTRL SHIFT, M, class:vesktop'
+
+notify-send "Discord Shortcuts initiated"
