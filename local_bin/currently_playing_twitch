@@ -1,0 +1,59 @@
+#!/bin/bash
+
+set -e
+
+# Get the directory where the script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+OUTPUT_FILE="$SCRIPT_DIR/currently_playing.txt"
+
+# Cleanup function to clear the file on exit
+cleanup() {
+    echo "Exiting. Clearing $OUTPUT_FILE..."
+    > "$OUTPUT_FILE"
+    exit 0
+}
+trap cleanup SIGINT
+
+# Prompt user to click a window
+echo "Click the window you want to track..."
+CLICK_POS=$(slurp -b 00000000 -p)
+
+if [ -z "$CLICK_POS" ]; then
+    echo "No click detected."
+    exit 1
+fi
+
+# Extract X and Y from click position
+CLICK_X=$(echo "$CLICK_POS" | cut -d',' -f1)
+CLICK_Y=$(echo "$CLICK_POS" | cut -d',' -f2)
+
+# Match the clicked coordinates to a window
+WINDOW_ID=$(hyprctl -j clients | jq -r --arg x "$CLICK_X" --arg y "$CLICK_Y" '
+  .[] | select(
+    ($x | tonumber) >= .at[0] and ($x | tonumber) <= (.at[0] + .size[0]) and
+    ($y | tonumber) >= .at[1] and ($y | tonumber) <= (.at[1] + .size[1])
+  ) | .address
+')
+
+if [ -z "$WINDOW_ID" ]; then
+    echo "No window found under click."
+    exit 1
+fi
+
+echo "Tracking window ID: $WINDOW_ID"
+> "$OUTPUT_FILE"
+LAST_TITLE=""
+
+# Main loop to track title changes
+while true; do
+    WIN_INFO=$(hyprctl -j clients)
+    TITLE=$(echo "$WIN_INFO" | jq -r --arg addr "$WINDOW_ID" '.[] | select(.address == $addr) | .title')
+
+    if [ "$TITLE" != "$LAST_TITLE" ]; then
+        echo "$TITLE" > "$OUTPUT_FILE"
+        echo "[ $(date '+%H:%M:%S') ] Title changed to: $TITLE"
+        LAST_TITLE="$TITLE"
+    fi
+
+    sleep 1
+done

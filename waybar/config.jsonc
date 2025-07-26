@@ -12,7 +12,7 @@
         "memory",
         "temperature",
         "hyprland/workspaces",
-        "hyprland/mode",
+        "hyprland/window",
         "custom/fullscreen"
     ],
     "modules-center": [
@@ -21,16 +21,24 @@
         "clock"
     ],
     "modules-right": [
+        "custom/notifications",
         "idle_inhibitor",
         "pulseaudio",
         "network",
         "custom/bluetooth",
         "power-profiles-daemon",
         "backlight",
-        "clock",
         "tray",
         "custom/power"
     ],
+    "custom/notifications": {
+        "exec": "~/.config/waybar/scripts/notify-icon.sh",
+        "format": "{}",
+        "return-type": "text",
+        "interval": 2,
+        "on-click": "swaync-client -t",
+        "tooltip": false
+    },
     // Modules configuration
     "sway/workspaces": {
         "disable-scroll": true,
@@ -216,5 +224,8 @@
     "custom/power": {
         "exec": "echo '⏻ '",
         "on-click": "~/.config/waybar/scripts/powermenu.sh"
+    },
+    "hyprland/window": {
+        "separate-outputs": true
     }
 }

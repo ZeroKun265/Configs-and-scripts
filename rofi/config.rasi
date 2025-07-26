@@ -2,3 +2,5 @@ configuration {
     matching: "prefix";
     sort: true;
 }
+
+@theme "/usr/share/rofi/themes/arthur.rasi"
